@@ -9,13 +9,17 @@ const Index = () => {
   const [clicks, setClicks] = useState(0);
 
   const getHeadings = async () => {
-    const res = await fetch("http://localhost:5000/api/heading/get-headings");
+    const res = await fetch(
+      "https://courageous-ox-veil.cyclic.app/api/heading/get-headings"
+    );
     const data = await res.json();
     setCurrentValue(data);
   };
 
   const getClicks = async () => {
-    const res = await fetch("http://localhost:5000/api/click/get-count");
+    const res = await fetch(
+      "https://courageous-ox-veil.cyclic.app/api/click/get-count"
+    );
     const data = await res.json();
     setClicks(data.sum);
   };
@@ -28,7 +32,7 @@ const Index = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const res = await fetch(
-      "http://localhost:5000/api/heading/change-headings",
+      "https://courageous-ox-veil.cyclic.app/api/heading/change-headings",
       {
         method: "POST",
         headers: {
@@ -51,21 +55,24 @@ const Index = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", file);
-    const res = await fetch("http://localhost:5000/api/upload-image", {
-      method: "PUT",
-      body: formData,
-    });
+    const res = await fetch(
+      "https://courageous-ox-veil.cyclic.app/api/upload-image",
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
     const data = await res.json();
     if (data.file) {
       const res1 = await fetch(
-        "http://localhost:5000/api/heading/change-logo",
+        "https://courageous-ox-veil.cyclic.app/api/heading/change-logo",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            image: data.file.originalname,
+            image: data.file,
           }),
         }
       );
