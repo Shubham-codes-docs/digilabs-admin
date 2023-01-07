@@ -5,7 +5,7 @@ import "./index.css";
 const Index = () => {
   const [currentValue, setCurrentValue] = useState("");
   const [newValue, setNewValue] = useState("");
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState("");
   const [clicks, setClicks] = useState(0);
 
   const getHeadings = async () => {
@@ -53,6 +53,10 @@ const Index = () => {
 
   const uploadHandler = async (e) => {
     e.preventDefault();
+    if (file === "") {
+      alert("Please choose a file");
+      return;
+    }
     const formData = new FormData();
     formData.append("image", file);
     const res = await fetch(
@@ -63,7 +67,7 @@ const Index = () => {
       }
     );
     const data = await res.json();
-    if (data.file) {
+    if (data.success === true) {
       const res1 = await fetch(
         "https://courageous-ox-veil.cyclic.app/api/heading/change-logo",
         {
@@ -79,7 +83,7 @@ const Index = () => {
       const data1 = await res1.json();
       if (data1.success === true) {
         alert(data1.msg);
-        setFile({});
+        setFile();
       }
     }
   };
